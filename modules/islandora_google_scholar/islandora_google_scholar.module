@@ -113,7 +113,7 @@ function islandora_google_scholar_create_meta_tags($object) {
       $tags['citation_journal_title'] = (string) reset($journal_title);
     }
 
-    $volume = $mods_xml->xpath('mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="volume"]/mods:number');
+    $volume = $mods_xml->xpath('//mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="volume"]/mods:number');
     if ($volume) {
       $tags['citation_volume'] = (string) reset($volume);
     }
