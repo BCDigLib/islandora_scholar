@@ -1,3 +1,4 @@
+@@ -1,239 +0,0 @@
 <?php
 
 /**
@@ -112,7 +113,7 @@ function islandora_google_scholar_create_meta_tags($object) {
       $tags['citation_journal_title'] = (string) reset($journal_title);
     }
 
-    $volume = $mods_xml->xpath('//mods:part/mods:detail[@type="volume"]/mods:number');
+    $volume = $mods_xml->xpath('mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="volume"]/mods:number');
     if ($volume) {
       $tags['citation_volume'] = (string) reset($volume);
     }
@@ -125,17 +126,17 @@ function islandora_google_scholar_create_meta_tags($object) {
           (string) reset($issn));
     }
 
-    $issue = $mods_xml->xpath('//mods:part/mods:detail[@type="issue"]/mods:number');
+    $issue = $mods_xml->xpath('//mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="issue"]/mods:number');
     if ($issue) {
       $tags['citation_issue'] = (string) reset($issue);
     }
 
-    $start_page = $mods_xml->xpath('//mods:extent[@unit="page"]/mods:start');
+    $start_page = $mods_xml->xpath('//mods:extent[@unit="pages"]/mods:start');
     if ($start_page) {
       $tags['citation_firstpage'] = (string) reset($start_page);
     }
 
-    $end_page = $mods_xml->xpath('//mods:extent[@unit="page"]/mods:end');
+    $end_page = $mods_xml->xpath('//mods:extent[@unit="pages"]/mods:end');
     if ($end_page) {
       $tags['citation_endpage'] = (string) reset($end_page);
     }
