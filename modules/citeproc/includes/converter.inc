@@ -121,7 +121,6 @@ function convert_mods_to_citeproc_jsons($mods_in) {
     $names = convert_mods_to_citeproc_json_names($mods);
     $dates = convert_mods_to_citeproc_json_dates($mods);
     $type = convert_mods_to_citeproc_json_type($mods);
-    $parented = "'$type'='book' or '$type'='chapter' or '$type'='article-journal'";
     $output = array_merge(array(
       'title' => convert_mods_to_citeproc_json_title($mods),
       'abstract' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:abstract'),
@@ -133,19 +132,22 @@ function convert_mods_to_citeproc_jsons($mods_in) {
       'event' => convert_mods_to_citeproc_json_event($mods),
       'event-place' => convert_mods_to_citeproc_json_event_place($mods),
       // 'genre' => convert_mods_to_citeproc_json_genre($mods),
+      'genre' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:extension/etdms:degree/etdms:name'),
       'ISBN' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:identifier[@type="isbn"]'),
-      'volume' => (int) convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:part/mods:detail[@type="volume"]/mods:number'),
-      'issue' => (int) convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:part/mods:detail[@type="issue"]/mods:number'),
-      'note' => convert_mods_to_citeproc_json_note($mods),
+      'volume' => (int) convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="volume"]/mods:number'),
+      'issue' => (int) convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="issue"]/mods:number'),
+      'note' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:note[@type="version identification"]'),
       'number' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:relatedItem[@type="series"]/mods:titleInfo/mods:partNumber'),
       'page' => convert_mods_to_citeproc_json_page($mods),
+      // 'page' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:relatedItem[@type="host"]/mods:part/mods:extent[@unit="pages"]/mods:list'),
       'publisher' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:originInfo/mods:publisher'),
-      'publisher-place' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:originInfo/mods:place/mods:placeTerm'),
-      'URL' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:location/mods:url'),
+      'publisher-place' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:originInfo/mods:place/mods:placeTerm[@type="text"]'),
+      'URL' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:identifier[@type="hdl"]'),
       'number-pmid' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:identifier[@type="accession"]'),
       'number-pmcid' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:identifier[@type="pmc"]'),
       'number-nihmsid' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:identifier[@type="mid"]'),
       'type' => convert_mods_to_citeproc_json_genre($mods),
+      //'type' => $type,
     ),
     $names,
     $dates
@@ -175,18 +177,42 @@ function convert_mods_to_citeproc_jsons($mods_in) {
  *   The JSON repersentation of the MODS genre.
  */
 function convert_mods_to_citeproc_json_genre($mods) {
-  $genre = convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:genre');
+  $genre = convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:genre[@usage="primary"]');
   switch (trim($genre)) {
     case 'journal article':
+    case 'article':
       return 'article-journal';
 
     case 'book chapter':
     case 'book section':
       return 'chapter';
-
+    
     case 'book':
       return 'book';
+    
+    case 'conference':
+      return 'paper-conference';
+    
+    case 'interview':
+      return 'interview';
 
+    case 'report':
+    case 'occasional paper':
+    case 'case study':
+      return 'report';
+    
+    case 'review':
+      return 'review';
+    
+    case 'thesis':
+      return 'thesis';
+    
+    case 'videorecording':
+      return 'motion_picture';
+    
+    case 'working paper':
+      return 'manuscript';
+    
     default:
       return 'article-journal';
   }
@@ -300,10 +326,10 @@ function convert_mods_to_citeproc_json_note(SimpleXMLElement $mods) {
  */
 function convert_mods_to_citeproc_json_page(SimpleXMLElement $mods) {
   $output = NULL;
-  $pages = $mods->xpath("//mods:mods[1]/mods:part/mods:extent[@unit='pages']");
+  $pages = $mods->xpath("//mods:mods[1]/mods:relatedItem/mods:part/mods:extent[@unit='pages']");
   // Note: "pages" is correct, but Zotero uses "page".
   if (empty($pages)) {
-    $pages = $mods->xpath("//mods:mods[1]/mods:part/mods:extent[@unit='page']");
+    $pages = $mods->xpath("//mods:mods[1]/mods:relatedItem/mods:part/mods:extent[@unit='page']");
   }
 
   $pages = (!empty($pages) ? $pages[0] : NULL);
@@ -521,29 +547,29 @@ function convert_mods_to_citeproc_json_names(SimpleXMLElement $mods) {
       'author',
       // Valid Roles.
       array(
-        'editor' => 'editor',
-        'translator' => 'translator',
-        'interviewer' => 'interviewer',
-        'composer' => 'composer',
-        'original' => 'original-author',
-        'recipient' => 'recipient',
-        'author' => 'author',
+        'Editor' => 'editor',
+        'Translator' => 'translator',
+        'Interviewer' => 'interviewer',
+        'Composer' => 'composer',
+        'Original' => 'original-author',
+        'Recipient' => 'recipient',
+        'Author' => 'author',
       ),
     ),
     1 => array(
       '//mods:mods[1]/mods:relatedItem[@type="host"]/mods:name',
       'container-author',
       array(
-        'editor' => 'editor',
-        'translator' => 'translator',
-        'author' => 'container-author',
+        'Editor' => 'editor',
+        'Translator' => 'translator',
+        'Author' => 'container-author',
       ),
     ),
     2 => array(
       '//mods:mods[1]/mods:relatedItem[@type="series"]/mods:name',
       NULL,
       array(
-        'editor' => 'collection-editor',
+        'Editor' => 'collection-editor',
       ),
     ),
   );
