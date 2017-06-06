@@ -599,6 +599,7 @@ function convert_mods_to_citeproc_json_names(SimpleXMLElement $mods) {
     $names = $mods->xpath($path);
     if (!empty($names)) {
       foreach ($names as $name) {
+
         add_mods_namespace($name);
         $role = convert_mods_to_citeproc_json_name_role($name, $valid_roles, $default_role);
         if ($role !== FALSE) {
@@ -723,7 +724,7 @@ function convert_mods_to_citeproc_json_name_role(SimpleXMLElement $name, array $
   module_load_include('inc', 'citeproc', 'includes/marcrelator_conversion');
   $role_term = $name->xpath("mods:role/mods:roleTerm");
   if (isset($role_term[0])) {
-    $role = (string) $role_term[0];
+    $role = strtolower((string) $role_term[0]);
     $role_term = $role_term[0];
   }
   else {
@@ -775,6 +776,9 @@ function convert_mods_to_citeproc_json_dates(SimpleXMLElement $mods) {
   if (!empty($season) && isset($output['issued']['date-parts'][0]) && count($output['issued']['date-parts'][0]) == 1) {
     $seasons = array('', 'Spring', 'Summer', 'Fall', 'Winter');
     $output['issued']['season'] = (string) array_search($season, $seasons);
+  }
+  if (empty($output)) {
+    $output['issued'] = array('string-literal' => '');
   }
   return $output;
 }

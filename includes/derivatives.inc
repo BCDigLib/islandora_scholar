@@ -199,7 +199,6 @@ function islandora_scholar_add_jpg_derivative(AbstractObject $object, $file_uri,
       return islandora_scholar_missing_pdf_datastream($object->id);
     }
     $derivative_file_uri = islandora_scholar_create_jpg_derivative($file_uri, $dsid, $width, $height);
-    file_unmanaged_delete($file_uri);
     // Receive a valid file URI to add or an error message otherwise.
     if (!is_array($derivative_file_uri) && file_valid_uri($derivative_file_uri)) {
       $success = islandora_scholar_add_datastream($object, $dsid, $derivative_file_uri);
@@ -325,7 +324,10 @@ function islandora_scholar_add_datastream($object, $datastream_id, $file_uri) {
     else {
       $ds = $object[$datastream_id];
     }
-    $ds->mimetype = $mime_detector->getMimetype($file_uri);
+    $mime_detector_mime = $mime_detector->getMimetype($file_uri);
+    if ($ds->mimetype != $mime_detector_mime) {
+      $ds->mimetype = $mime_detector_mime;
+    }
     $ds->setContentFromFile(drupal_realpath($file_uri), FALSE);
     if ($ingest) {
       $object->ingestDatastream($ds);
