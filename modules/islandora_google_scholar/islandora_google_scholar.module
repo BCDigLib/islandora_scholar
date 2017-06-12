@@ -140,16 +140,14 @@ function islandora_google_scholar_create_meta_tags($object) {
           (string) reset($issn));
     }
 
-<<<<<<< HEAD
+
     $issue = $mods_xml->xpath('//mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="issue"]/mods:number');
-=======
+
     $isbn = $mods_xml->xpath('//mods:identifier[@type="isbn"]');
     if ($isbn) {
       $tags['citation_isbn'] = (string) reset($isbn);
     }
 
-    $issue = $mods_xml->xpath('//mods:part/mods:detail[@type="issue"]/mods:number');
->>>>>>> 86e73749078de5aba6466fca901b6a7830ce106d
     if ($issue) {
       $tags['citation_issue'] = (string) reset($issue);
     }
