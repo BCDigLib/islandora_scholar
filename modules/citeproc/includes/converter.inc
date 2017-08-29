@@ -131,8 +131,8 @@ function convert_mods_to_citeproc_jsons($mods_in) {
       'edition' => preg_replace('/[^0-9]/', '', convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:originInfo/mods:edition')),
       'event' => convert_mods_to_citeproc_json_event($mods),
       'event-place' => convert_mods_to_citeproc_json_event_place($mods),
-      'genre' => convert_mods_to_citeproc_json_genre($mods),
-      // 'genre' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:extension/etdms:degree/etdms:name'),
+      // 'genre' => convert_mods_to_citeproc_json_genre($mods),
+      'genre' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:extension/etdms:degree/etdms:name'),
       'ISBN' => convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:identifier[@type="isbn"]'),
       'volume' => (int) convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="volume"]/mods:number'),
       'issue' => (int) convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="issue"]/mods:number'),
@@ -186,13 +186,13 @@ function convert_mods_to_citeproc_json_genre($mods) {
     case 'book chapter':
     case 'book section':
       return 'chapter';
-    
+
     case 'book':
       return 'book';
-    
+
     case 'conference':
       return 'paper-conference';
-    
+
     case 'interview':
       return 'interview';
 
@@ -200,19 +200,19 @@ function convert_mods_to_citeproc_json_genre($mods) {
     case 'occasional paper':
     case 'case study':
       return 'report';
-    
+
     case 'review':
       return 'review';
-    
+
     case 'thesis':
       return 'thesis';
-    
+
     case 'videorecording':
       return 'motion_picture';
-    
+
     case 'working paper':
       return 'manuscript';
-    
+
     default:
       return 'article-journal';
   }
