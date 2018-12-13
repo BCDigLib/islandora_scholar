@@ -1682,8 +1682,6 @@
                         <EdD>EdD</EdD>
                         <STL>STL</STL>
                         <STD>STD</STD>
-                        <BS>BS</BS>
-                        <BA>BA</BA>
                       </options>
                       <required>FALSE</required>
                       <resizable>FALSE</resizable>
@@ -1724,7 +1722,6 @@
                         <Doctoral>Doctoral</Doctoral>
                         <Masters>Masters</Masters>
                         <Licentiate>Licentiate</Licentiate>
-                        <Bachelors>Bachelors</Bachelors>
                       </options>
                       <required>FALSE</required>
                       <resizable>FALSE</resizable>
