@@ -127,11 +127,7 @@ function islandora_google_scholar_create_meta_tags($object) {
       $tags[$host_tag] = (string) reset($host_title);
     }
 
-<<<<<<< HEAD
-    $volume = $mods_xml->xpath('//mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="volume"]/mods:number');
-=======
-    $volume = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_volume', '//mods:mods[1]/mods:part/mods:detail[@type="volume"]/mods:number'));
->>>>>>> 7.x-1.12
+    $volume = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_volume', '//mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="volume"]/mods:number'));
     if ($volume) {
       $tags['citation_volume'] = (string) reset($volume);
     }
@@ -143,41 +139,22 @@ function islandora_google_scholar_create_meta_tags($object) {
           array('', '', '', ''),
           (string) reset($issn));
     }
-
-<<<<<<< HEAD
-
-    $issue = $mods_xml->xpath('//mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="issue"]/mods:number');
-
-    $isbn = $mods_xml->xpath('//mods:identifier[@type="isbn"]');
-=======
     $isbn = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_isbn', '//mods:identifier[@type="isbn"]'));
->>>>>>> 7.x-1.12
     if ($isbn) {
       $tags['citation_isbn'] = (string) reset($isbn);
     }
 
-<<<<<<< HEAD
-=======
-    $issue = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_issue', '//mods:mods[1]/mods:part/mods:detail[@type="issue"]/mods:number'));
->>>>>>> 7.x-1.12
+    $issue = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_issue', '//mods:relatedItem[@type="host"]/mods:part/mods:detail[@type="issue"]/mods:number'));
     if ($issue) {
       $tags['citation_issue'] = (string) reset($issue);
     }
 
-<<<<<<< HEAD
-    $start_page = $mods_xml->xpath('//mods:extent[@unit="pages"]/mods:start');
-=======
-    $start_page = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_start_page', '//mods:extent[@unit="page"]/mods:start'));
->>>>>>> 7.x-1.12
+    $start_page = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_start_page', '//mods:extent[@unit="pages"]/mods:start'));
     if ($start_page) {
       $tags['citation_firstpage'] = (string) reset($start_page);
     }
 
-<<<<<<< HEAD
-    $end_page = $mods_xml->xpath('//mods:extent[@unit="pages"]/mods:end');
-=======
-    $end_page = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_end_page', '//mods:extent[@unit="page"]/mods:end'));
->>>>>>> 7.x-1.12
+    $end_page = $mods_xml->xpath(variable_get('islandora_scholar_xpaths_end_page', '//mods:extent[@unit="pages"]/mods:end'));
     if ($end_page) {
       $tags['citation_lastpage'] = (string) reset($end_page);
     }
