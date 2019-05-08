@@ -136,7 +136,7 @@ function convert_mods_to_citeproc_jsons($mods_in) {
       'ISBN' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_ISBN', '//mods:mods[1]/mods:identifier[@type="isbn"]')),
       'volume' => (int) convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_volume', '//mods:mods[1]/mods:part/mods:detail[@type="volume"]/mods:number')),
       'issue' => (int) convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_issue', '//mods:mods[1]/mods:part/mods:detail[@type="issue"]/mods:number')),
-      'note' => convert_mods_to_citeproc_json_note($mods),
+      // 'note' => convert_mods_to_citeproc_json_note($mods),
       'number' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_number', '//mods:mods[1]/mods:relatedItem[@type="series"]/mods:titleInfo/mods:partNumber')),
       'page' => convert_mods_to_citeproc_json_page($mods),
       'publisher' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_publisher', '//mods:mods[1]/mods:originInfo/mods:publisher')),
