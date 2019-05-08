@@ -146,7 +146,7 @@ function convert_mods_to_citeproc_jsons($mods_in) {
       'number-pmcid' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_number-pmcid', '//mods:mods[1]/mods:identifier[@type="pmc"]')),
       'number-nihmsid' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_number-nihmsid', '//mods:mods[1]/mods:identifier[@type="mid"]')),
       'type' => convert_mods_to_citeproc_json_genre($mods),
-      //'type' => $type,
+      // 'type' => $type,
     ),
     $names,
     $dates
@@ -176,8 +176,8 @@ function convert_mods_to_citeproc_jsons($mods_in) {
  *   The JSON repersentation of the MODS genre.
  */
 function convert_mods_to_citeproc_json_genre($mods) {
-  $genre = convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:genre[@usage="primary"]');
-  // $genre = convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_genre', '//mods:mods[1]/mods:genre'));
+  // $genre = convert_mods_to_citeproc_json_query($mods, '//mods:mods[1]/mods:genre[@usage="primary"]');
+  $genre = convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_genre', '//mods:mods[1]/mods:genre'));
   switch (trim($genre)) {
     case 'journal article':
     case 'article':
