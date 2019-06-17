@@ -141,7 +141,7 @@ function convert_mods_to_citeproc_jsons($mods_in) {
       'page' => convert_mods_to_citeproc_json_page($mods),
       'publisher' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_publisher', '//mods:mods[1]/mods:originInfo/mods:publisher')),
       'publisher-place' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_publisher-place', '//mods:mods[1]/mods:originInfo/mods:place/mods:placeTerm')),
-      'URL' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_URL', '//mods:mods[1]/mods:location/mods:url')),
+      'URL' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_URL', '//mods:mods[1]/mods:identifier[@type="hdl"]')),
       'number-pmid' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_number-pmid', '//mods:mods[1]/mods:identifier[@type="accession"]')),
       'number-pmcid' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_number-pmcid', '//mods:mods[1]/mods:identifier[@type="pmc"]')),
       'number-nihmsid' => convert_mods_to_citeproc_json_query($mods, variable_get('islandora_scholar_xpaths_number-nihmsid', '//mods:mods[1]/mods:identifier[@type="mid"]')),
