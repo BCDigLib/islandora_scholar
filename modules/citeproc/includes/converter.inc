@@ -152,7 +152,7 @@ function convert_mods_to_citeproc_jsons($mods_in) {
     $names,
     $dates
     );
-    if ($output['type'] == 'book') {
+    if (isset($output['type']) && $output['type'] === 'book') {
       unset($output['container-title']);
       unset($output['page']);
     }
